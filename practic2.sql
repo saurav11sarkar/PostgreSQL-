@@ -56,6 +56,7 @@ CREATE TABLE students1 (
 );
 
 DROP TABLE students1;
+
 DROP TABLE courses;
 
 INSERT INTO
@@ -78,30 +79,68 @@ VALUES ('John', 20, 1),
 
 SELECT * FROM students1;
 
-SELECT * FROM students1 JOIN courses ON students1.course_id = courses.cs_id;
+SELECT *
+FROM students1
+    JOIN courses ON students1.course_id = courses.cs_id;
 
 SELECT AVG(age) FROM students1;
-SELECT * FROM students1 WHERE age > (SELECT AVG(age) FROM students1);
+
+SELECT * FROM students1 WHERE age > ( SELECT AVG(age) FROM students1 );
 
 SELECT DISTINCT age FROM students1;
 
 SELECT * FROM students1 WHERE age BETWEEN 20 AND 23;
 
 ALTER TABLE students1 ADD COLUMN email VARCHAR(100);
+
 SELECT * FROM students1;
 
 UPDATE students1 SET email = 'john@gmail.com' WHERE email IS NULL;
 
 SELECT name as student_name FROM students1;
 
-SELECT * FROM students1 WHERE age IN(18,20,23);
+SELECT * FROM students1 WHERE age IN (18, 20, 23);
 
-INSERT INTO students1 (name, age, email, course_id) VALUES('saurav',22,NULL,1);
+INSERT INTO
+    students1 (name, age, email, course_id)
+VALUES ('saurav', 22, NULL, 1);
 
-SELECT age, count(*) FROM students1 GROUP BY age HAVING count(*) >= 2 ;
+SELECT age, count(*)
+FROM students1
+GROUP BY
+    age
+HAVING
+    count(*) >= 2;
 
 SELECT * FROM students1 LIMIT 5 OFFSET 5;
 
-SELECT name,age, CASE WHEN age >= 22 THEN 'Adult' ELSE 'Minor' END AS category FROM students1;
+SELECT
+    name,
+    age,
+    CASE
+        WHEN age >= 22 THEN 'Adult'
+        ELSE 'Minor'
+    END AS category
+FROM students1;
 
+SELECT * FROM students1 WHERE email >= 'john@gmail.com';
 
+SELECT * FROM students1;
+
+SELECT * FROM courses;
+
+INSERT INTO courses (name, duration) VALUES ('Biology', 2);
+
+SELECT students1.name, courses.name
+FROM students1
+    JOIN courses ON students1.course_id = courses.cs_id;
+
+SELECT students1.name, courses.name
+FROM students1
+    RIGHT JOIN courses ON students1.course_id = courses.cs_id;
+
+CREATE View adult_student as SELECT * FROM students1 WHERE age >= 23;
+
+SELECT * FROM adult_student;
+
+SELECT * FROM students1;
