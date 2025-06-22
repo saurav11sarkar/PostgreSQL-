@@ -267,8 +267,13 @@ CREATE TABLE orders (
     total_amount DECIMAL(10, 2)
 );
 
-INSERT INTO orders (coustomer_id, order_date, total_amount) VALUES 
-    (1, '2022-01-05', 100.50),
+INSERT INTO
+    orders (
+        coustomer_id,
+        order_date,
+        total_amount
+    )
+VALUES (1, '2022-01-05', 100.50),
     (2, '2020-01-07', 200.75),
     (1, '2022-01-08', 150.25),
     (3, '2020-05-10', 300.00),
@@ -284,4 +289,28 @@ DROP Table orders;
 
 SELECT * FROM orders;
 
-SELECT coustomer_id, count(order_id), sum(total_amount) as total_spent FROM orders GROUP BY(coustomer_id) HAVING COUNT(order_id)>2 ORDER BY total_spent DESC;
+SELECT coustomer_id, count(order_id), sum(total_amount) as total_spent
+FROM orders
+GROUP BY (coustomer_id)
+HAVING
+    COUNT(order_id) > 2
+ORDER BY total_spent DESC;
+
+SELECT orders.coustomer_id, COUNT(order_id) AS total_orders, SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY (coustomer_id)
+HAVING
+    COUNT(order_id) > 2
+ORDER BY total_spent DESC;
+
+SELECT EXTRACT(
+        MONTH
+        FROM order_date
+    ) AS month, SUM(orders.total_amount) AS total_orders
+FROM orders
+WHERE
+    EXTRACT(
+        YEAR
+        FROM order_date
+    ) = 2022
+GROUP BY (month);
